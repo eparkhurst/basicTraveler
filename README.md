@@ -8,3 +8,6 @@ I've spent the last year working/learning to code at Galvanize. It has easliy be
 so,
 it's time to travel.
 
+## The App
+
+The App is essentially a blog that tracks where I am in the world and where each entry is coming from. It is also connected to instagram and shows the pictures I take along the way.
