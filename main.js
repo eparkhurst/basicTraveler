@@ -8,7 +8,8 @@ function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 6,
     center: uluru,
-    mapTypeId: 'hybrid'
+    mapTypeId: 'hybrid',
+    mapTypeControl: false,
   });
   var image = new google.maps.MarkerImage(
     './logos/facebookLogo.png',
