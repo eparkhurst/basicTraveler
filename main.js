@@ -1,6 +1,22 @@
-var locationsArray = [{lat:39.7392, lng:-104.9903},{lat:33.4484,lng: -112.0740},{lat:32.7157, lng:-117.1611}]
-getLocation()
-createWaypoints(locationsArray)
+var locationsArray = []
+
+function run(){
+  hitBackEnd()
+}
+
+$(".addLocationButton").click(()=>{
+  getLocation()
+})
+
+function hitBackEnd(){
+  $.get("http://localhost:3000/", (data)=>{
+    console.log(data);
+    locationsArray = data
+  }).then(function(){
+    initMap()
+  })
+}
+
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
@@ -8,9 +24,20 @@ function getLocation() {
         console.log("Geolocation is not supported by this browser.")
     }
 }
+
 function showPosition(position) {
-  locationsArray.push({lat:position.coords.latitude, lng:position.coords.longitude})
+  loc = {lat:position.coords.latitude, lng:position.coords.longitude}
+  console.log(loc);
+  locationsArray.push(loc)
+  addLocation(loc)
   initMap()
+}
+
+function addLocation(loc){
+  $.post("http://localhost:3000/locations", loc)
+    .done((response)=>{
+    console.log(response);
+  })
 }
 
 function createWaypoints(array){
