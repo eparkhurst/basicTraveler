@@ -1,4 +1,26 @@
+var locationsArray = [{lat:39.7392, lng:-104.9903},{lat:33.4484,lng: -112.0740},{lat:32.7157, lng:-117.1611}]
+getLocation()
+createWaypoints(locationsArray)
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        console.log("Geolocation is not supported by this browser.")
+    }
+}
+function showPosition(position) {
+  locationsArray.push({lat:position.coords.latitude, lng:position.coords.longitude})
+  initMap()
+}
 
+function createWaypoints(array){
+  var newArray = array.concat([])
+  newArray.shift()
+  newArray.pop()
+  return newArray.map((e)=>{
+    return {location:e,stopover:true}
+  })
+}
 
 function initMap() {
   var directionsDisplay;
@@ -32,14 +54,9 @@ function initMap() {
   })
   directionsDisplay.setMap(map);
   var request = {
-    origin: {lat:39.7392, lng:-104.9903},
-    destination: {lat:32.7157, lng:-117.1611},
-    waypoints:[{location:{
-      lat:33.4484,
-      lng: -112.0740
-    },
-    stopover:true
-    } ],
+    origin: locationsArray[0],
+    destination:  locationsArray[locationsArray.length -1] ,
+    waypoints:createWaypoints(locationsArray),
     travelMode: 'DRIVING'
   };
   directionsService.route(request, function(result, status) {
